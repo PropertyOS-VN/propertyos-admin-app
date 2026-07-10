@@ -1,6 +1,10 @@
 allowBuilds:
-  '@heroui/shared-utils': set this to true or false
-  sharp: set this to true or false
+  # HeroUI utility noi bo - da chu dong dung HeroUI nen tin tuong duoc.
+  '@heroui/shared-utils': true
+  # Next.js dung sharp de optimize anh (next/image) - can build native binary.
+  sharp: true
+  # Dung boi eslint-import-resolver-typescript de resolve path nhanh hon.
+  unrs-resolver: true
 minimumReleaseAgeExclude:
   - '@supabase/auth-js@2.110.2'
   - '@supabase/functions-js@2.110.2'

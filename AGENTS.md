@@ -40,6 +40,7 @@ Không cần tự viết rule Next.js/React từ đầu — ưu tiên dùng skil
 - **Mỗi function (component, hook, helper) có JSDoc tóm tắt tính năng** ngay phía trên, kể cả function nhỏ — nêu component/hàm này làm gì, không cần liệt kê hết từng prop nếu đã rõ qua TypeScript type.
 - Comment giải thích thêm cho đoạn code khó hiểu/có logic đặc biệt (VD: tính toán, điều kiện phức tạp, workaround) — không comment những dòng code đã tự giải thích rõ ràng.
 - **Comment 1 dòng dùng `//`**, **comment nhiều dòng dùng `/* ... */`** — không dùng nhiều dòng `//` liên tiếp để thay cho comment khối.
+- **Comment/JSDoc tiếng Việt phải gõ có dấu đầy đủ** (VD: "Kiểm tra hợp đồng còn hiệu lực" — không viết "Kiem tra hop dong con hieu luc"). Không dùng tiếng Việt không dấu trong code.
 
 ```tsx
 /**
@@ -59,6 +60,21 @@ function RoomList({ buildingId }: { buildingId: string }) {
   return <div>{/* ... */}</div>;
 }
 ```
+
+## Tooling — lint/format/commit
+
+- **ESLint** (`eslint.config.mjs`, flat config, dựa trên `eslint-config-next/core-web-vitals` + `eslint-config-prettier`): `pnpm lint` / `pnpm lint:fix`.
+- **Prettier** (`.prettierrc.json`): `pnpm format` / `pnpm format:check`. ESLint không lo việc format (đã tắt rule trùng qua `eslint-config-prettier`) — Prettier lo toàn bộ style.
+- **Husky + lint-staged**: `pre-commit` tự chạy ESLint fix + Prettier trên file staged; `commit-msg` chặn commit không đúng chuẩn Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`...). Cần chạy `pnpm install` 1 lần (script `prepare`) để kích hoạt hook — nếu hook không chạy, kiểm tra `git config core.hooksPath` đã trỏ về `.husky` chưa.
+- **TypeScript**: `pnpm typecheck` (tách riêng khỏi `next build` để chạy nhanh hơn trong CI).
+- **CI** (`.github/workflows/ci.yml`): mọi PR chạy `format:check` → `lint` → `typecheck` → `test` (unit) → `build`, rồi job riêng chạy `test:e2e` (Playwright). Code không qua CI thì không merge.
+
+## Testing
+
+- **Unit test — Vitest** (`vitest.config.mts`): `pnpm test` (chạy 1 lần) / `pnpm test:watch` / `pnpm test:coverage`. Dùng cho Client Component, custom hook, helper/util thuần túy — file test đặt cạnh file được test, đuôi `.test.ts`/`.test.tsx` (xem mẫu `src/app/api/health/route.test.ts`).
+- **Không unit test Server Component/Route Handler phức tạp** (có gọi Supabase/`billing-service`) — runtime Next.js khó mock đúng trong Vitest. Loại này test qua Playwright (E2E) hoặc tách phần logic thuần túy ra hàm riêng để unit test, phần gọi I/O thì để E2E cover.
+- **E2E — Playwright** (`playwright.config.ts`, thư mục `e2e/`): `pnpm test:e2e`. Tự động `build` + `start` app trước khi chạy, không cần server chạy sẵn. Ưu tiên viết E2E cho luồng quan trọng (đăng nhập, tạo hợp đồng, tạo hóa đơn) — xem mẫu `e2e/health.spec.ts`.
+- Khi thêm tính năng mới có UI tương tác hoặc luồng nghiệp vụ, viết kèm ít nhất 1 test (unit hoặc E2E tùy loại) — đừng chỉ dựa vào kiểm tra thủ công.
 
 ## HeroUI v2 (đã cài, không phải v3)
 
