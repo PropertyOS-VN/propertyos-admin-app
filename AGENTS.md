@@ -34,6 +34,32 @@ Không cần tự viết rule Next.js/React từ đầu — ưu tiên dùng skil
 5. UI dùng HeroUI Pro block có sẵn trước khi tự viết component mới; giữ Tailwind + Framer Motion nhất quán với phần còn lại của app. Import component HeroUI từ package lẻ (VD `@heroui/button`), không import từ `@heroui/react` (chỉ dùng `@heroui/react` để lấy `heroui`/`HeroUIProvider`).
 6. Next.js 16: Turbopack là bundler mặc định, dùng `use cache`/Cache Components khi cần cache dữ liệu (xem skill `next-cache-components`), không dùng pattern Pages Router.
 
+## Code style — component & comment
+
+- **Luôn viết component dạng function component** (`function` hoặc arrow function), không dùng class component.
+- **Mỗi function (component, hook, helper) có JSDoc tóm tắt tính năng** ngay phía trên, kể cả function nhỏ — nêu component/hàm này làm gì, không cần liệt kê hết từng prop nếu đã rõ qua TypeScript type.
+- Comment giải thích thêm cho đoạn code khó hiểu/có logic đặc biệt (VD: tính toán, điều kiện phức tạp, workaround) — không comment những dòng code đã tự giải thích rõ ràng.
+- **Comment 1 dòng dùng `//`**, **comment nhiều dòng dùng `/* ... */`** — không dùng nhiều dòng `//` liên tiếp để thay cho comment khối.
+
+```tsx
+/**
+ * Hiển thị danh sách phòng của 1 tòa nhà, cho phép đổi trạng thái (trống/đang thuê).
+ */
+function RoomList({ buildingId }: { buildingId: string }) {
+  // Trạng thái phòng đang chọn để hiện modal đổi trạng thái
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+
+  /*
+   * Phòng đang có hợp đồng active thì không cho đổi sang "trống" trực tiếp —
+   * phải kết thúc hợp đồng trước. Check này lặp lại ở nhiều nơi nên tách
+   * thành hàm riêng bên dưới thay vì viết trùng logic.
+   */
+  const canMarkAsEmpty = (room: Room) => !room.activeContractId;
+
+  return <div>{/* ... */}</div>;
+}
+```
+
 ## HeroUI v2 (đã cài, không phải v3)
 
 `@heroui/react` mới publish v3 (viết lại toàn bộ, không tương thích ngược, không còn `HeroUIProvider`) — project này **cố tình pin ở v2** (`^2.8.10`) vì license HeroUI Pro đang có là cho v2. Đừng tự ý bump `@heroui/react` lên `^3` dù thấy version mới hơn.
