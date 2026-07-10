@@ -1,0 +1,10 @@
+allowBuilds:
+  '@heroui/shared-utils': set this to true or false
+  sharp: set this to true or false
+minimumReleaseAgeExclude:
+  - '@supabase/auth-js@2.110.2'
+  - '@supabase/functions-js@2.110.2'
+  - '@supabase/postgrest-js@2.110.2'
+  - '@supabase/realtime-js@2.110.2'
+  - '@supabase/storage-js@2.110.2'
+  - '@supabase/supabase-js@2.110.2'
