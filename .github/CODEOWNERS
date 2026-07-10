@@ -1,0 +1,11 @@
+# Xem cú pháp đầy đủ: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Quy tắc match theo thứ tự xuất hiện, dòng match sau cùng thắng — nếu thêm
+# rule cụ thể hơn cho 1 thư mục, đặt rule đó BÊN DƯỚI dòng "*" mặc định.
+
+# Mặc định: toàn bộ repo propertyos-admin-app (Next.js)
+* @duyelbi
+
+# Ví dụ khi có thêm người join, phân theo khu vực cụ thể hơn:
+# /src/lib/supabase/ @duyelbi
+# /src/app/(auth)/ @duyelbi
