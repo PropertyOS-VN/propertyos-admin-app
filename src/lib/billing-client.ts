@@ -1,4 +1,4 @@
-// Client gọi sang apps/billing-service (Spring Boot, deploy Cloud Run)
+// Client gọi sang apps/billing-service (Spring Boot, deploy Render)
 // khi cần trigger job tính toán/sinh hoá đơn thay vì query thẳng Postgres.
 
 const BILLING_SERVICE_URL = process.env.BILLING_SERVICE_URL ?? "http://localhost:8082";
