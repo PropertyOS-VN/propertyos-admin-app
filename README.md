@@ -10,13 +10,13 @@ FE + BE nhẹ của PropertyOS — Next.js App Router, xử lý auth (Supabase) 
 
 ```bash
 pnpm install
-cp .env.example .env.local   # điền NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
+cp .env.example .env.local   # điền NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 pnpm dev
 ```
 
 ## Deploy
 
-Deploy trực tiếp lên [Vercel](https://vercel.com) (free Hobby tier), Root Directory = `apps/admin-app`. Set 3 biến môi trường ở bước "Environment Variables" của Vercel giống `.env.example`.
+Deploy trực tiếp lên [Vercel](https://vercel.com) (free Hobby tier) từ repo `propertyos-admin-app` — Root Directory để mặc định (`./`), không cần đổi, vì repo này (sau khi tách khỏi monorepo) đã có `package.json` ngay ở gốc. Set các biến môi trường ở bước "Environment Variables" của Vercel giống `.env.example`.
 
 ## Cấu trúc
 
